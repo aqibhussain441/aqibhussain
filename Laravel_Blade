@@ -1,12 +1,16 @@
-This is my testing laravel website code here
-*/
-Public Class WrapFile
-{
-var a= "Hello to the world";
-var b="second commit to git"
-var c ="Third commit on the git".
-WrapFile()
-{
-
-}
-}
+t('can update a bank account', function () {
+    $user = User::factory()->create();
+    $bankAccount = BankAccount::factory()->create();
+ 
+    $this->actingAs($user)
+        ->put(route('bank-accounts.update', $bankAccount->id), [
+            'name' => 'Test Bank Account',
+            'user_id' => $user->id,
+        ])
+        ->assertRedirect(route('bank-accounts.index'));
+ 
+    $this->assertDatabaseHas('bank_accounts', [
+        'name' => 'Test Bank Account',
+        'user_id' => $user->id,
+    ]);
+});
